@@ -16,8 +16,6 @@ export default function Login({ onAuthSuccess }) {
     try {
       const data = await apiService.verifyStudent(studentNo);
       setStudentName(data.name);
-      
-      // Compatibility layer: checks if backend says hasPassword is false OR if it uses isFirstTime
       if (data.hasPassword === false || data.isFirstTime) {
         setStep('SETUP');
       } else {
@@ -53,19 +51,14 @@ export default function Login({ onAuthSuccess }) {
     <div 
       className="min-h-screen w-full flex items-center justify-center bg-cover bg-center bg-no-repeat relative px-4 font-sans"
       style={{ 
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.65)), url('https://www.dropbox.com/scl/fi/euyohxu41t9kboskuxi69/1000296217.png?rlkey=awaaea9kjnq8tu5xwhz2ozi2i&st=owkgstdp&raw=1')` 
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.5)), url('https://www.dropbox.com/scl/fi/euyohxu41t9kboskuxi69/1000296217.png?rlkey=awaaea9kjnq8tu5xwhz2ozi2i&st=hctsb52n&raw=1')` 
       }}
     >
-      {/* Visual blur container card */}
-      <div className="max-w-md w-full p-8 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 z-10">
+      {/* Centered glassmorphism container card */}
+      <div className="max-w-md w-full p-8 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 z-10 my-auto">
         
-        {/* Branding Header Area */}
-        <div className="text-center mb-6 flex flex-col items-center">
-          <img 
-            src="https://www.dropbox.com/scl/fi/ivjw3phhsmq2x0pkgrzo6/IMG-20250322-WA0011.png?rlkey=do5ea2eh4y90iyrvdun0wmlgx&st=6zz93u1h&raw=1" 
-            alt="Azania Paragon Logo" 
-            className="w-20 h-20 object-contain drop-shadow-md mb-3"
-          />
+        {/* Simplified Header - Logo completely removed here to avoid clustering */}
+        <div className="text-center mb-6">
           <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">
             AZANIA PARAGON
           </h2>
@@ -75,12 +68,12 @@ export default function Login({ onAuthSuccess }) {
         </div>
 
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-3 text-sm text-red-700 rounded-r-lg mb-4 shadow-sm animate-pulse">
+          <div className="bg-red-50 border-l-4 border-red-500 p-3 text-sm text-red-700 rounded-r-lg mb-4 shadow-sm">
             ⚠️ {error}
           </div>
         )}
 
-        {/* Step 1: Verification Interface */}
+        {/* Step 1: Verification Form */}
         {step === 'VERIFY' && (
           <form className="space-y-4" onSubmit={handleVerify}>
             <div>
@@ -106,7 +99,7 @@ export default function Login({ onAuthSuccess }) {
           </form>
         )}
 
-        {/* Step 2: Password Processing (Setup or Login Form) */}
+        {/* Step 2: Password Form */}
         {(step === 'SETUP' || step === 'LOGIN') && (
           <form className="space-y-4" onSubmit={handlePasswordSubmit}>
             <div className="bg-slate-50/80 p-4 rounded-xl text-sm text-slate-700 border border-slate-100 shadow-inner">
