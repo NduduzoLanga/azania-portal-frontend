@@ -49,15 +49,15 @@ export default function Login({ onAuthSuccess }) {
 
   return (
     <div 
-      className="min-h-screen w-full flex items-center justify-center bg-cover bg-center bg-no-repeat relative px-4 font-sans"
+      className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-4 font-sans overflow-y-auto"
       style={{ 
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.5)), url('https://www.dropbox.com/scl/fi/euyohxu41t9kboskuxi69/1000296217.png?rlkey=awaaea9kjnq8tu5xwhz2ozi2i&st=hctsb52n&raw=1')` 
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.55)), url('https://www.dropbox.com/scl/fi/euyohxu41t9kboskuxi69/1000296217.png?rlkey=awaaea9kjnq8tu5xwhz2ozi2i&st=hctsb52n&raw=1')` 
       }}
     >
-      {/* Centered glassmorphism container card */}
-      <div className="max-w-md w-full p-8 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 z-10 my-auto">
+      {/* Centered Glassmorphism Card */}
+      <div className="max-w-md w-full p-8 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 my-auto">
         
-        {/* Simplified Header - Logo completely removed here to avoid clustering */}
+        {/* Portal Branding Header */}
         <div className="text-center mb-6">
           <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">
             AZANIA PARAGON
@@ -73,7 +73,7 @@ export default function Login({ onAuthSuccess }) {
           </div>
         )}
 
-        {/* Step 1: Verification Form */}
+        {/* Step 1: Verification Interface */}
         {step === 'VERIFY' && (
           <form className="space-y-4" onSubmit={handleVerify}>
             <div>
@@ -99,7 +99,7 @@ export default function Login({ onAuthSuccess }) {
           </form>
         )}
 
-        {/* Step 2: Password Form */}
+        {/* Step 2: Password Layout (Setup or Sign In) */}
         {(step === 'SETUP' || step === 'LOGIN') && (
           <form className="space-y-4" onSubmit={handlePasswordSubmit}>
             <div className="bg-slate-50/80 p-4 rounded-xl text-sm text-slate-700 border border-slate-100 shadow-inner">
