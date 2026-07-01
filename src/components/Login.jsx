@@ -59,37 +59,56 @@ export default function Login({ onAuthSuccess }) {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 9999,
+        fontFamily: 'system-ui, -apple-system, sans-serif',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.6)), url('https://www.dropbox.com/scl/fi/euyohxu41t9kboskuxi69/1000296217.png?rlkey=awaaea9kjnq8tu5xwhz2ozi2i&st=hctsb52n&raw=1')` 
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.75)), url('https://www.dropbox.com/scl/fi/euyohxu41t9kboskuxi69/1000296217.png?rlkey=awaaea9kjnq8tu5xwhz2ozi2i&st=hctsb52n&raw=1')` 
       }}
-      className="px-4 font-sans text-left"
     >
-      {/* Crisp White Centered Login Container */}
-      <div className="max-w-md w-full p-8 bg-white rounded-2xl shadow-2xl border border-slate-200 block text-left">
+      {/* Crisp White Elevated Login Container */}
+      <div style={{
+        maxWidth: '420px',
+        width: '90%',
+        backgroundColor: '#ffffff',
+        padding: '40px 32px',
+        borderRadius: '20px',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+        border: '1px solid #e2e8f0',
+        boxSizing: 'border-box',
+        textAlign: 'left'
+      }}>
         
         {/* Portal Branding Header */}
-        <div className="text-center mb-6 block">
-          <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <h2 style={{ fontSize: '28px', fontWeight: '900', color: '#1e293b', margin: 0, letterSpacing: '-0.025em' }}>
             AZANIA PARAGON
           </h2>
-          <p className="text-xs font-bold text-amber-600 uppercase tracking-wider mt-1">
-            Supplementary Exam Portal
+          <p style={{ fontSize: '11px', fontWeight: '800', color: '#d97706', uppercase: 'true', letterSpacing: '0.05em', margin: '6px 0 0 0' }}>
+            SUPPLEMENTARY EXAM PORTAL
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-3 text-sm text-red-700 rounded-r-lg mb-4 shadow-sm block text-left">
+          <div style={{
+            backgroundColor: '#fef2f2',
+            borderLeft: '4px solid #ef4444',
+            padding: '12px',
+            fontSize: '13px',
+            color: '#991b1b',
+            borderRadius: '0 8px 8px 0',
+            marginBottom: '20px',
+            fontWeight: '500'
+          }}>
             ⚠️ {error}
           </div>
         )}
 
         {/* Step 1: Verification Form */}
         {step === 'VERIFY' && (
-          <form className="space-y-4 block text-left" onSubmit={handleVerify}>
-            <div className="block text-left">
-              <label className="block text-xs font-bold uppercase tracking-wide text-slate-600 mb-1">
+          <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} onSubmit={handleVerify}>
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: '#475569', marginBottom: '6px', letterSpacing: '0.025em' }}>
                 Student Number
               </label>
               <input 
@@ -98,32 +117,65 @@ export default function Login({ onAuthSuccess }) {
                 value={studentNo} 
                 onChange={(e) => setStudentNo(e.target.value)} 
                 placeholder="e.g., SDG1001" 
-                className="block w-full px-4 py-3 border border-slate-200 bg-slate-50 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase font-mono text-lg transition"
+                style={{
+                  width: '100%',
+                  padding: '14px 16px',
+                  border: '1px solid #cbd5e1',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '12px',
+                  fontSize: '16px',
+                  fontFamily: 'monospace',
+                  textTransform: 'uppercase',
+                  boxSizing: 'border-box',
+                  outline: 'none'
+                }}
               />
             </div>
             <button 
               type="submit" 
               disabled={loading} 
-              className="w-full py-3.5 px-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition shadow-lg disabled:opacity-50 cursor-pointer uppercase tracking-wider text-xs block"
+              style={{
+                width: '100%',
+                padding: '14px',
+                backgroundColor: '#1e293b',
+                color: '#ffffff',
+                fontWeight: '700',
+                fontSize: '13px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                opacity: loading ? 0.6 : 1
+              }}
             >
-              {loading ? 'Searching...' : 'Verify Student Profile'}
+              {loading ? 'Verifying Profile...' : 'Verify Student Profile'}
             </button>
           </form>
         )}
 
-        {/* Step 2: Password Form */}
+        {/* Step 2: Password Setup / Login Form */}
         {(step === 'SETUP' || step === 'LOGIN') && (
-          <form className="space-y-4 block text-left" onSubmit={handlePasswordSubmit}>
-            <div className="bg-slate-50 p-4 rounded-xl text-sm text-slate-700 border border-slate-100 shadow-inner block text-left">
-              Greetings, <strong className="text-slate-900">{studentName}</strong>!<br/>
+          <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} onSubmit={handlePasswordSubmit}>
+            <div style={{
+              backgroundColor: '#f1f5f9',
+              padding: '14px',
+              borderRadius: '12px',
+              fontSize: '13px',
+              color: '#334155',
+              border: '1px solid #e2e8f0',
+              lineHeight: '1.5'
+            }}>
+              Greetings, <strong style={{ color: '#0f172a' }}>{studentName}</strong>!<br/>
               {step === 'SETUP' 
-                ? 'Create a new secure password to initialize your portal account.' 
-                : 'Please enter your password to access your scheduling matrix.'
+                ? 'Create a secure password to initialize your supplementary portal account.' 
+                : 'Please enter your account password to view your scheduling calendar.'
               }
             </div>
             
-            <div className="block text-left">
-              <label className="block text-xs font-bold uppercase tracking-wide text-slate-600 mb-1">
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', color: '#475569', marginBottom: '6px', letterSpacing: '0.025em' }}>
                 {step === 'SETUP' ? 'Create Password' : 'Enter Password'}
               </label>
               <input 
@@ -132,22 +184,55 @@ export default function Login({ onAuthSuccess }) {
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
                 placeholder="••••••••" 
-                className="block w-full px-4 py-3 border border-slate-200 bg-slate-50 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
+                style={{
+                  width: '100%',
+                  padding: '14px 16px',
+                  border: '1px solid #cbd5e1',
+                  backgroundColor: '#f8fafc',
+                  borderRadius: '12px',
+                  fontSize: '16px',
+                  boxSizing: 'border-box',
+                  outline: 'none'
+                }}
               />
             </div>
             
-            <div className="flex space-x-3 pt-1">
+            <div style={{ display: 'flex', gap: '12px', marginTop: '4px' }}>
               <button 
                 type="button" 
                 onClick={() => setStep('VERIFY')} 
-                className="w-1/3 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition text-xs uppercase tracking-wider cursor-pointer"
+                style={{
+                  width: '35%',
+                  padding: '14px',
+                  backgroundColor: '#e2e8f0',
+                  color: '#475569',
+                  fontWeight: '700',
+                  fontSize: '13px',
+                  textTransform: 'uppercase',
+                  border: 'none',
+                  borderRadius: '12px',
+                  cursor: 'pointer'
+                }}
               >
                 Back
               </button>
               <button 
                 type="submit" 
                 disabled={loading} 
-                className="w-2/3 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition shadow-lg disabled:opacity-50 text-xs uppercase tracking-wider cursor-pointer"
+                style={{
+                  width: '65%',
+                  padding: '14px',
+                  backgroundColor: '#d97706',
+                  color: '#ffffff',
+                  fontWeight: '700',
+                  fontSize: '13px',
+                  textTransform: 'uppercase',
+                  border: 'none',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                  opacity: loading ? 0.6 : 1
+                }}
               >
                 {loading ? 'Processing...' : step === 'SETUP' ? 'Set Password' : 'Sign In'}
               </button>
