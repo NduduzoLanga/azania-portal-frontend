@@ -61,75 +61,138 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 font-sans pb-12">
-      {/* Top Navigation Frame */}
-      <header className="bg-slate-900 text-white shadow-lg px-6 py-4 flex justify-between items-center border-b-2 border-amber-500">
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: '#f1f5f9',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      color: '#1e293b',
+      paddingBottom: '48px',
+      boxSizing: 'border-box'
+    }}>
+      
+      {/* 🏛️ Top Navigation Frame */}
+      <header style={{
+        backgroundColor: '#0f172a',
+        color: '#ffffff',
+        padding: '16px 24px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+        borderBottom: '4px solid #f59e0b'
+      }}>
         <div>
-          <h1 className="text-xl font-black tracking-tight tracking-wider text-amber-500">AZANIA PARAGON INSTITUTE</h1>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Cohort Sup-Registration System v2.6</p>
+          <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '900', letterSpacing: '0.05em', color: '#f59e0b' }}>
+            AZANIA PARAGON INSTITUTE
+          </h1>
+          <p style={{ margin: '4px 0 0 0', fontSize: '10px', color: '#94a3b8', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            Cohort Sup-Registration System v2.6
+          </p>
         </div>
-        <div className="text-right">
-          <p className="font-bold text-sm text-slate-100">{user.name}</p>
-          <p className="text-xs font-mono text-amber-400 font-bold">{user.studentNo}</p>
+        <div style={{ textAlign: 'right' }}>
+          <p style={{ margin: 0, fontWeight: '700', fontSize: '14px', color: '#f8fafc' }}>{user.name}</p>
+          <p style={{ margin: '2px 0 0 0', fontSize: '12px', fontFamily: 'monospace', color: '#fbbf24', fontWeight: '700' }}>{user.studentNo}</p>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto mt-8 px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* 🎛️ Workspace Layout Content Container */}
+      <main style={{
+        maxWidth: '1200px',
+        margin: '32px auto 0 auto',
+        padding: '0 16px',
+        display: 'grid',
+        gridTemplateColumns: '1fr 2fr',
+        gap: '24px',
+        boxSizing: 'border-box'
+      }}>
         
-        {/* Left Hand Roster Panel */}
-        <div className="md:col-span-1 space-y-6">
-          <div className="bg-white p-5 rounded-xl shadow-md border border-slate-200">
-            <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3 border-b pb-2 text-slate-500">Unscheduled Papers</h2>
+        {/* LEFT COLUMN: Roster Management Panels */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          
+          {/* Box 1: Unscheduled Papers */}
+          <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0' }}>
+            <h2 style={{ margin: '0 0 12px 0', fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
+              Unscheduled Papers
+            </h2>
             
             {user.missedExams.length === 0 ? (
-              <p className="text-xs text-emerald-700 bg-emerald-50 p-3 rounded-lg border border-emerald-200 font-medium">
+              <p style={{ margin: 0, fontSize: '12px', color: '#15803d', backgroundColor: '#f0fdf4', padding: '12px', borderRadius: '8px', border: '1px solid #bbf7d0', fontWeight: '500' }}>
                 ✓ All cohort supplementary modules have been allocated time slots.
               </p>
             ) : (
-              <div className="space-y-2">
-                {user.missedExams.map((exam) => (
-                  <button
-                    key={exam.id}
-                    onClick={() => { setSelectedExam(exam); setBookingMessage(''); }}
-                    className={`w-full text-left p-3 rounded-lg border transition duration-150 cursor-pointer ${
-                      selectedExam?.id === exam.id
-                        ? 'border-amber-500 bg-amber-50/70 text-slate-900 font-bold shadow-sm'
-                        : 'border-slate-200 hover:bg-slate-50 text-slate-700'
-                    }`}
-                  >
-                    <p className="text-xs font-mono text-slate-400 mb-0.5">{exam.id}</p>
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="font-medium truncate max-w-[180px]">{exam.name.replace(/SDG P\d - /, '')}</span>
-                      <span className="text-xs bg-slate-800 text-amber-400 px-2 py-0.5 rounded font-mono font-bold">R{exam.fee}</span>
-                    </div>
-                  </button>
-                ))}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {user.missedExams.map((exam) => {
+                  const isSelected = selectedExam?.id === exam.id;
+                  return (
+                    <button
+                      key={exam.id}
+                      onClick={() => { setSelectedExam(exam); setBookingMessage(''); }}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        border: isSelected ? '2px solid #f59e0b' : '1px solid #e2e8f0',
+                        backgroundColor: isSelected ? '#fef9c3' : '#ffffff',
+                        cursor: 'pointer',
+                        transition: 'background-color 0.15s ease'
+                      }}
+                    >
+                      <p style={{ margin: '0 0 4px 0', fontSize: '11px', fontFamily: 'monospace', color: '#94a3b8' }}>{exam.id}</p>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '13px', fontWeight: isSelected ? '700' : '500', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '170px' }}>
+                          {exam.name.replace(/SDG P\d - /, '')}
+                        </span>
+                        <span style={{ fontSize: '11px', backgroundColor: '#1e293b', color: '#fbbf24', padding: '2px 6px', borderRadius: '4px', fontFamily: 'monospace', fontWeight: '700' }}>
+                          R{exam.fee}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
 
-          {/* Active Allocated Trackers */}
-          <div className="bg-white p-5 rounded-xl shadow-md border border-slate-200">
-            <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3 border-b pb-2 text-slate-500">Roster Seating Status</h2>
+          {/* Box 2: Roster Seating Status */}
+          <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0' }}>
+            <h2 style={{ margin: '0 0 12px 0', fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
+              Roster Seating Status
+            </h2>
             {user.bookings.length === 0 ? (
-              <p className="text-xs text-slate-400 italic py-2">No active pending or paid allocations on file.</p>
+              <p style={{ margin: 0, fontSize: '12px', color: '#94a3b8', fontStyle: 'italic', padding: '8px 0' }}>
+                No active pending or paid allocations on file.
+              </p>
             ) : (
-              <div className="space-y-2">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {user.bookings.map((booking) => (
-                  <div key={booking.id} className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-1 hover:border-slate-300 transition">
-                    <div className="flex justify-between font-bold text-slate-800">
-                      <span className="truncate max-w-[150px]">{booking.examName}</span>
+                  <div key={booking.id} style={{ padding: '12px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '13px', fontWeight: '700', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '140px' }}>
+                        {booking.examName}
+                      </span>
                       <button 
                         onClick={() => setActiveInvoice(booking)}
-                        className="text-[10px] px-2 py-0.5 rounded bg-amber-100 border border-amber-200 text-amber-900 font-bold hover:bg-amber-200 transition cursor-pointer"
+                        style={{
+                          fontSize: '10px',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: '#fef3c7',
+                          border: '1px solid #fde68a',
+                          color: '#78350f',
+                          fontWeight: '700',
+                          cursor: 'pointer'
+                        }}
                       >
                         View EFT Info
                       </button>
                     </div>
-                    <p className="text-slate-600 font-medium">📅 {booking.date} | ⏰ {booking.time}</p>
-                    <div className="pt-1 flex justify-between items-center border-t border-dashed border-slate-200 mt-1">
-                      <span className="text-[9px] text-slate-400 font-mono">Expires: {booking.expiresAt}</span>
-                      <span className="font-bold text-amber-600 font-mono text-[10px]">R{booking.fee}</span>
+                    <p style={{ margin: 0, fontSize: '12px', color: '#475569', fontWeight: '500' }}>
+                      📅 {booking.date} | ⏰ {booking.time}
+                    </p>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px dashed #e2e8f0', paddingTop: '6px', marginTop: '4px' }}>
+                      <span style={{ fontSize: '9px', color: '#94a3b8', fontFamily: 'monospace' }}>Expires: {booking.expiresAt}</span>
+                      <span style={{ fontSize: '11px', fontWeight: '700', color: '#ea580c', fontFamily: 'monospace' }}>R{booking.fee}</span>
                     </div>
                   </div>
                 ))}
@@ -138,142 +201,187 @@ export default function App() {
           </div>
         </div>
 
-        {/* Right Hand Scheduling Core Matrix */}
-        <div className="md:col-span-2 space-y-4">
+        {/* RIGHT COLUMN: Interactive Scheduling Desk & Invoices */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          
           {bookingMessage && (
-            <div className="bg-emerald-50 border-l-4 border-emerald-500 p-3 text-xs text-emerald-800 rounded shadow-sm">
-              {bookingMessage}
+            <div style={{ backgroundColor: '#ecfdf5', borderLeft: '4px solid #10b981', padding: '12px', fontSize: '12px', color: '#065f46', borderRadius: '4px' }}>
+              🎉 {bookingMessage}
             </div>
           )}
           {errorMessage && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-3 text-xs text-red-800 rounded shadow-sm">
-              {errorMessage}
+            <div style={{ backgroundColor: '#fef2f2', borderLeft: '4px solid #ef4444', padding: '12px', fontSize: '12px', color: '#991b1b', borderRadius: '4px' }}>
+              ⚠️ {errorMessage}
             </div>
           )}
 
-          {/* Invoice Overlay Drawer if active */}
+          {/* EFT Payment Mandate Invoice Display */}
           {activeInvoice && (
-            <div className="bg-amber-50 border-2 border-amber-400 p-5 rounded-xl shadow-inner space-y-3">
-              <div className="flex justify-between items-center border-b border-amber-200 pb-2">
+            <div style={{ backgroundColor: '#fffbeb', border: '2px solid #f59e0b', padding: '20px', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: 'inset 0 2px 4px 0 rgba(0,0,0,0.06)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #fde68a', paddingBottom: '8px' }}>
                 <div>
-                  <h3 className="text-sm font-black text-amber-900 uppercase tracking-wide">Direct EFT Payment Mandate</h3>
-                  <p className="text-[10px] text-amber-800 font-mono">Invoice ID: {activeInvoice.id}</p>
+                  <h3 style={{ margin: 0, fontSize: '14px', fontWeight: '900', color: '#78350f', textTransform: 'uppercase', letterSpacing: '0.025em' }}>Direct EFT Payment Mandate</h3>
+                  <p style={{ margin: 0, fontSize: '10px', fontFamily: 'monospace', color: '#b45309' }}>Invoice ID: {activeInvoice.id}</p>
                 </div>
-                <button onClick={() => setActiveInvoice(null)} className="text-xs bg-amber-200 hover:bg-amber-300 text-amber-900 px-2 py-1 rounded font-bold cursor-pointer">Hide Directive</button>
+                <button 
+                  onClick={() => setActiveInvoice(null)} 
+                  style={{ fontSize: '11px', backgroundColor: '#fde68a', border: 'none', color: '#78350f', padding: '6px 10px', borderRadius: '6px', fontWeight: '700', cursor: 'pointer' }}
+                >
+                  Hide Directive
+                </button>
               </div>
               
-              <p className="text-xs text-slate-700 leading-relaxed">
-                A conditional seat has been reserved for <strong className="text-slate-900">{activeInvoice.examName}</strong> on <span className="font-bold text-slate-900">{activeInvoice.date} ({activeInvoice.time})</span>. To secure this seat, make an EFT payment before the 7-day expiry deadline (<strong className="text-red-700">{activeInvoice.expiresAt}</strong>).
+              <p style={{ margin: 0, fontSize: '12px', color: '#334155', lineHeight: '1.6' }}>
+                A conditional seat has been reserved for <strong style={{ color: '#0f172a' }}>{activeInvoice.examName}</strong> on <span style={{ fontWeight: '700', color: '#0f172a' }}>{activeInvoice.date} ({activeInvoice.time})</span>. To secure this seat, make an EFT payment before the 7-day expiry deadline (<strong style={{ color: '#b91c1c' }}>{activeInvoice.expiresAt}</strong>).
               </p>
 
-              <div className="bg-white p-4 rounded-lg border border-amber-200 font-mono text-xs space-y-1 shadow-sm">
-                <p><span className="text-slate-400">BANK NAME:</span> <span className="font-bold text-slate-800">GoTyme (formerly TymeBank)</span></p>
-                <p><span className="text-slate-400">ACCOUNT NO:</span> <span className="font-bold text-slate-800 text-sm">53000601847</span></p>
-                <p><span className="text-slate-400">ACCOUNT NAME:</span> <span className="font-bold text-slate-800">AZANIA PARAGON INSTITUTE</span></p>
-                <p><span className="text-slate-400">BRANCH CODE:</span> <span className="font-bold text-slate-800">678910</span></p>
-                <p className="pt-2 border-t border-dashed mt-2"><span className="text-amber-600 font-bold">REQUIRED REFERENCE:</span> <span className="bg-slate-900 text-amber-400 px-2 py-1 rounded font-black text-sm tracking-wider">SUPP EXAM {user.studentNo}</span></p>
-                <p><span className="text-slate-400">AMOUNT DUE:</span> <span className="font-bold text-slate-900">R{activeInvoice.fee}.00</span></p>
+              <div style={{ backgroundColor: '#ffffff', padding: '16px', borderRadius: '8px', border: '1px solid #fde68a', fontFamily: 'monospace', fontSize: '12px', display: 'flex', flexDirection: 'column', gap: '6px', boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)' }}>
+                <p style={{ margin: 0 }}><span style={{ color: '#94a3b8' }}>BANK NAME:</span> <span style={{ fontWeight: '700', color: '#334155' }}>GoTyme (formerly TymeBank)</span></p>
+                <p style={{ margin: 0 }}><span style={{ color: '#94a3b8' }}>ACCOUNT NO:</span> <span style={{ fontWeight: '700', color: '#0f172a', fontSize: '13px' }}>53000601847</span></p>
+                <p style={{ margin: 0 }}><span style={{ color: '#94a3b8' }}>ACCOUNT NAME:</span> <span style={{ fontWeight: '700', color: '#334155' }}>AZANIA PARAGON INSTITUTE</span></p>
+                <p style={{ margin: 0 }}><span style={{ color: '#94a3b8' }}>BRANCH CODE:</span> <span style={{ fontWeight: '700', color: '#334155' }}>678910</span></p>
+                <p style={{ margin: '6px 0 0 0', paddingTop: '8px', borderTop: '1px dashed #e2e8f0' }}>
+                  <span style={{ color: '#d97706', fontWeight: '700' }}>REQUIRED REFERENCE:</span> <br />
+                  <span style={{ display: 'inline-block', marginTop: '4px', backgroundColor: '#0f172a', color: '#fbbf24', padding: '4px 8px', borderRadius: '4px', fontWeight: '900', fontSize: '13px', letterSpacing: '0.05em' }}>SUPP EXAM {user.studentNo}</span>
+                </p>
+                <p style={{ margin: 0 }}><span style={{ color: '#94a3b8' }}>AMOUNT DUE:</span> <span style={{ fontWeight: '700', color: '#0f172a' }}>R{activeInvoice.fee}.00</span></p>
               </div>
-              <p className="text-[10px] text-slate-500 italic">⚠️ Note: Email confirmation copy with these banking parameters has been transmitted to parent inbox address on file.</p>
+              <p style={{ margin: 0, fontSize: '10px', color: '#64748b', fontStyle: 'italic' }}>⚠️ Note: Email confirmation copy with these banking parameters has been transmitted to parent inbox address on file.</p>
             </div>
           )}
 
-          <div className="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-            <div className="flex justify-between items-start border-b pb-4 mb-6">
+          {/* Calendar Block Container */}
+          <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid #e2e8f0', paddingBottom: '16px', marginBottom: '20px' }}>
               <div>
-                <h2 className="text-base font-black text-slate-800">July 2026 Supplementary Calendar Blocks</h2>
-                <p className="text-xs text-slate-500 mt-0.5">Select from active daily evaluation timelines below.</p>
+                <h2 style={{ margin: 0, fontSize: '16px', fontWeight: '900', color: '#1e293b' }}>July 2026 Supplementary Calendar Blocks</h2>
+                <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#64748b' }}>Select from active daily evaluation timelines below.</p>
               </div>
-              <div className="bg-slate-100 text-right px-3 py-1.5 rounded-lg border">
-                <p className="text-[9px] font-bold text-slate-400 uppercase">Registration Window</p>
-                <p className="text-[10px] font-mono text-slate-700 font-bold">03 July – 10 July 2026</p>
+              <div style={{ backgroundColor: '#f8fafc', textAlign: 'right', padding: '6px 12px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                <p style={{ margin: 0, fontSize: '9px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase' }}>Registration Window</p>
+                <p style={{ margin: 0, fontSize: '10px', fontFamily: 'monospace', color: '#334155', fontWeight: '700' }}>03 July – 10 July 2026</p>
               </div>
             </div>
 
-            {/* Timetable Grids Divided by Calendar Weeks */}
-            <div className="space-y-4">
+            {/* Timetable Grids Divided by Weeks */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              
+              {/* Week 1 */}
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Block Week 1 (13 July - 16 July)</p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {slots.slice(0, 4).map((slot) => (
-                    <button
-                      key={slot.date} type="button"
-                      onClick={() => { setSelectedDate(slot.date); setSelectedTime(''); }}
-                      className={`p-3 rounded-lg border text-center transition cursor-pointer ${
-                        selectedDate === slot.date ? 'border-slate-900 bg-slate-900 text-white font-bold shadow-sm' : 'border-slate-200 hover:bg-slate-50 text-slate-700 bg-slate-50/50'
-                      }`}
-                    >
-                      <p className="text-[11px] font-mono font-semibold">{slot.date.substring(5)}</p>
-                    </button>
-                  ))}
+                <p style={{ margin: '0 0 8px 0', fontSize: '10px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#94a3b8' }}>Block Week 1 (13 July - 16 July)</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                  {slots.slice(0, 4).map((slot) => {
+                    const isSelected = selectedDate === slot.date;
+                    return (
+                      <button
+                        key={slot.date} type="button"
+                        onClick={() => { setSelectedDate(slot.date); setSelectedTime(''); }}
+                        style={{
+                          padding: '12px 6px', borderRadius: '8px', border: isSelected ? '1px solid #0f172a' : '1px solid #e2e8f0',
+                          textAlign: 'center', cursor: 'pointer', backgroundColor: isSelected ? '#0f172a' : '#f8fafc',
+                          color: isSelected ? '#ffffff' : '#334155', fontWeight: isSelected ? '700' : '600'
+                        }}
+                      >
+                        <p style={{ margin: 0, fontSize: '11px', fontFamily: 'monospace' }}>{slot.date.substring(5)}</p>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
+              {/* Week 2 */}
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Block Week 2 (20 July - 23 July)</p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {slots.slice(4, 8).map((slot) => (
-                    <button
-                      key={slot.date} type="button"
-                      onClick={() => { setSelectedDate(slot.date); setSelectedTime(''); }}
-                      className={`p-3 rounded-lg border text-center transition cursor-pointer ${
-                        selectedDate === slot.date ? 'border-slate-900 bg-slate-900 text-white font-bold shadow-sm' : 'border-slate-200 hover:bg-slate-50 text-slate-700 bg-slate-50/50'
-                      }`}
-                    >
-                      <p className="text-[11px] font-mono font-semibold">{slot.date.substring(5)}</p>
-                    </button>
-                  ))}
+                <p style={{ margin: '0 0 8px 0', fontSize: '10px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#94a3b8' }}>Block Week 2 (20 July - 23 July)</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                  {slots.slice(4, 8).map((slot) => {
+                    const isSelected = selectedDate === slot.date;
+                    return (
+                      <button
+                        key={slot.date} type="button"
+                        onClick={() => { setSelectedDate(slot.date); setSelectedTime(''); }}
+                        style={{
+                          padding: '12px 6px', borderRadius: '8px', border: isSelected ? '1px solid #0f172a' : '1px solid #e2e8f0',
+                          textAlign: 'center', cursor: 'pointer', backgroundColor: isSelected ? '#0f172a' : '#f8fafc',
+                          color: isSelected ? '#ffffff' : '#334155', fontWeight: isSelected ? '700' : '600'
+                        }}
+                      >
+                        <p style={{ margin: 0, fontSize: '11px', fontFamily: 'monospace' }}>{slot.date.substring(5)}</p>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
+              {/* Week 3 */}
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Block Week 3 (27 July - 30 July)</p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {slots.slice(8, 12).map((slot) => (
-                    <button
-                      key={slot.date} type="button"
-                      onClick={() => { setSelectedDate(slot.date); setSelectedTime(''); }}
-                      className={`p-3 rounded-lg border text-center transition cursor-pointer ${
-                        selectedDate === slot.date ? 'border-slate-900 bg-slate-900 text-white font-bold shadow-sm' : 'border-slate-200 hover:bg-slate-50 text-slate-700 bg-slate-50/50'
-                      }`}
-                    >
-                      <p className="text-[11px] font-mono font-semibold">{slot.date.substring(5)}</p>
-                    </button>
-                  ))}
+                <p style={{ margin: '0 0 8px 0', fontSize: '10px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#94a3b8' }}>Block Week 3 (27 July - 30 July)</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                  {slots.slice(8, 12).map((slot) => {
+                    const isSelected = selectedDate === slot.date;
+                    return (
+                      <button
+                        key={slot.date} type="button"
+                        onClick={() => { setSelectedDate(slot.date); setSelectedTime(''); }}
+                        style={{
+                          padding: '12px 6px', borderRadius: '8px', border: isSelected ? '1px solid #0f172a' : '1px solid #e2e8f0',
+                          textAlign: 'center', cursor: 'pointer', backgroundColor: isSelected ? '#0f172a' : '#f8fafc',
+                          color: isSelected ? '#ffffff' : '#334155', fontWeight: isSelected ? '700' : '600'
+                        }}
+                      >
+                        <p style={{ margin: 0, fontSize: '11px', fontFamily: 'monospace' }}>{slot.date.substring(5)}</p>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            {/* Time Window Selections */}
+            {/* Time Segments */}
             {selectedDate && (
-              <div className="mt-6 pt-6 border-t border-slate-100 space-y-2 animate-fadeIn">
-                <p className="text-[10px] font-bold text-slate-500 uppercase">Available Daily Work-Hour Segments:</p>
-                <div className="flex gap-2">
-                  {slots.find(s => s.date === selectedDate)?.times.map((time) => (
-                    <button
-                      key={time} type="button"
-                      onClick={() => setSelectedTime(time)}
-                      className={`px-4 py-2 text-xs rounded-lg border transition font-mono cursor-pointer ${
-                        selectedTime === time ? 'border-amber-500 bg-amber-500 text-white font-bold shadow-sm' : 'border-slate-200 hover:bg-slate-100 bg-white text-slate-700'
-                      }`}
-                    >
-                      {time}
-                    </button>
-                  ))}
+              <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #f1f5f9' }}>
+                <p style={{ margin: '0 0 8px 0', fontSize: '10px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>Available Daily Work-Hour Segments:</p>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {slots.find(s => s.date === selectedDate)?.times.map((time) => {
+                    const isSelected = selectedTime === time;
+                    return (
+                      <button
+                        key={time} type="button"
+                        onClick={() => setSelectedTime(time)}
+                        style={{
+                          padding: '8px 16px', fontSize: '12px', borderRadius: '8px', cursor: 'pointer',
+                          border: isSelected ? '1px solid #f59e0b' : '1px solid #e2e8f0',
+                          backgroundColor: isSelected ? '#f59e0b' : '#ffffff',
+                          color: isSelected ? '#ffffff' : '#475569',
+                          fontWeight: '700', fontFamily: 'monospace'
+                        }}
+                      >
+                        {time}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
-            {/* Workflow Execution Bar */}
+            {/* Workflow Confirmation Drawer */}
             {selectedExam && selectedDate && selectedTime && (
-              <div className="mt-6 pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-slate-50 p-4 rounded-xl border border-dashed">
-                <div className="text-xs text-slate-700 space-y-0.5 mb-3 sm:mb-0">
-                  <p>Staging: <strong className="text-slate-900">{selectedExam.name}</strong></p>
-                  <p>Target: <span className="font-mono text-slate-900 font-bold">{selectedDate}</span> at <span className="font-mono text-slate-900 font-bold">{selectedTime}</span></p>
+              <div style={{
+                marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #e2e8f0',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                backgroundColor: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px dashed #cbd5e1'
+              }}>
+                <div style={{ fontSize: '12px', color: '#334155' }}>
+                  <p style={{ margin: 0 }}>Staging: <strong style={{ color: '#0f172a' }}>{selectedExam.name}</strong></p>
+                  <p style={{ margin: '2px 0 0 0' }}>Target: <span style={{ fontFamily: 'monospace', fontWeight: '700', color: '#0f172a' }}>{selectedDate}</span> at <span style={{ fontFamily: 'monospace', fontWeight: '700', color: '#0f172a' }}>{selectedTime}</span></p>
                 </div>
                 <button
                   onClick={handleConfirmBooking} disabled={loading}
-                  className="w-full sm:w-auto px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs uppercase tracking-wider rounded-lg shadow-md transition disabled:opacity-50 cursor-pointer"
+                  style={{
+                    padding: '10px 20px', backgroundColor: '#f59e0b', color: '#0f172a',
+                    fontWeight: '900', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em',
+                    border: 'none', borderRadius: '8px', shadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    cursor: 'pointer', opacity: loading ? 0.6 : 1
+                  }}
                 >
                   {loading ? 'Routing Parameters...' : 'Issue Conditional Seat'}
                 </button>
