@@ -49,16 +49,28 @@ export default function Login({ onAuthSuccess }) {
 
   return (
     <div 
-      className="fixed inset-0 w-screen h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-4 font-sans overflow-y-auto"
       style={{ 
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.55)), url('https://www.dropbox.com/scl/fi/euyohxu41t9kboskuxi69/1000296217.png?rlkey=awaaea9kjnq8tu5xwhz2ozi2i&st=hctsb52n&raw=1')` 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.6)), url('https://www.dropbox.com/scl/fi/euyohxu41t9kboskuxi69/1000296217.png?rlkey=awaaea9kjnq8tu5xwhz2ozi2i&st=hctsb52n&raw=1')` 
       }}
+      className="px-4 font-sans text-left"
     >
-      {/* Centered Glassmorphism Card */}
-      <div className="max-w-md w-full p-8 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 my-auto">
+      {/* Crisp White Centered Login Container */}
+      <div className="max-w-md w-full p-8 bg-white rounded-2xl shadow-2xl border border-slate-200 block text-left">
         
         {/* Portal Branding Header */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-6 block">
           <h2 className="text-3xl font-black text-slate-800 tracking-tight uppercase">
             AZANIA PARAGON
           </h2>
@@ -68,15 +80,15 @@ export default function Login({ onAuthSuccess }) {
         </div>
 
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-3 text-sm text-red-700 rounded-r-lg mb-4 shadow-sm">
+          <div className="bg-red-50 border-l-4 border-red-500 p-3 text-sm text-red-700 rounded-r-lg mb-4 shadow-sm block text-left">
             ⚠️ {error}
           </div>
         )}
 
-        {/* Step 1: Verification Interface */}
+        {/* Step 1: Verification Form */}
         {step === 'VERIFY' && (
-          <form className="space-y-4" onSubmit={handleVerify}>
-            <div>
+          <form className="space-y-4 block text-left" onSubmit={handleVerify}>
+            <div className="block text-left">
               <label className="block text-xs font-bold uppercase tracking-wide text-slate-600 mb-1">
                 Student Number
               </label>
@@ -86,23 +98,23 @@ export default function Login({ onAuthSuccess }) {
                 value={studentNo} 
                 onChange={(e) => setStudentNo(e.target.value)} 
                 placeholder="e.g., SDG1001" 
-                className="block w-full px-4 py-3 border border-slate-200 bg-slate-50/50 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase font-mono text-lg transition"
+                className="block w-full px-4 py-3 border border-slate-200 bg-slate-50 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-500 uppercase font-mono text-lg transition"
               />
             </div>
             <button 
               type="submit" 
               disabled={loading} 
-              className="w-full py-3.5 px-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition shadow-lg disabled:opacity-50 cursor-pointer uppercase tracking-wider text-xs"
+              className="w-full py-3.5 px-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition shadow-lg disabled:opacity-50 cursor-pointer uppercase tracking-wider text-xs block"
             >
               {loading ? 'Searching...' : 'Verify Student Profile'}
             </button>
           </form>
         )}
 
-        {/* Step 2: Password Layout (Setup or Sign In) */}
+        {/* Step 2: Password Form */}
         {(step === 'SETUP' || step === 'LOGIN') && (
-          <form className="space-y-4" onSubmit={handlePasswordSubmit}>
-            <div className="bg-slate-50/80 p-4 rounded-xl text-sm text-slate-700 border border-slate-100 shadow-inner">
+          <form className="space-y-4 block text-left" onSubmit={handlePasswordSubmit}>
+            <div className="bg-slate-50 p-4 rounded-xl text-sm text-slate-700 border border-slate-100 shadow-inner block text-left">
               Greetings, <strong className="text-slate-900">{studentName}</strong>!<br/>
               {step === 'SETUP' 
                 ? 'Create a new secure password to initialize your portal account.' 
@@ -110,7 +122,7 @@ export default function Login({ onAuthSuccess }) {
               }
             </div>
             
-            <div>
+            <div className="block text-left">
               <label className="block text-xs font-bold uppercase tracking-wide text-slate-600 mb-1">
                 {step === 'SETUP' ? 'Create Password' : 'Enter Password'}
               </label>
@@ -120,7 +132,7 @@ export default function Login({ onAuthSuccess }) {
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
                 placeholder="••••••••" 
-                className="block w-full px-4 py-3 border border-slate-200 bg-slate-50/50 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
+                className="block w-full px-4 py-3 border border-slate-200 bg-slate-50 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
               />
             </div>
             
