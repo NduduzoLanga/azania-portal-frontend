@@ -17,6 +17,38 @@ export default function App() {
   const [isRescheduling, setIsRescheduling] = useState(false);
   const [targetRescheduleBookingId, setTargetRescheduleBookingId] = useState(null);
 
+  // 💬 Live Support Widget Injection (Tawk.to)
+  useEffect(() => {
+    window.Tawk_API = window.Tawk_API || {};
+    window.Tawk_LoadStart = new Date();
+    
+    const s1 = document.createElement("script");
+    const s0 = document.getElementsByTagName("script")[0];
+    
+    s1.async = true;
+    s1.src = 'https://embed.tawk.to/6a2eaa41ccc4ac1d4891bb53/1jr34i4ss';
+    s1.charset = 'UTF-8';
+    s1.setAttribute('crossorigin', '*');
+    
+    if (s0 && s0.parentNode) {
+      s0.parentNode.insertBefore(s1, s0);
+    } else {
+      document.head.appendChild(s1);
+    }
+
+    // Optional: Clean up widget footprint if the parent logs out or the component unmounts
+    return () => {
+      if (window.Tawk_API && typeof window.Tawk_API.hideWidget === 'function') {
+        try {
+          window.Tawk_API.hideWidget();
+        } catch (e) {
+          console.log("Widget cleanup skipped.");
+        }
+      }
+    };
+  }, []);
+
+  // Fetch slot matrix on authentication
   useEffect(() => {
     if (user) {
       apiService.getSlots()
@@ -44,7 +76,6 @@ export default function App() {
     setLoading(true);
 
     try {
-      // If we are rescheduling an existing booking, we clean up or re-allocate
       const examPayloadId = selectedExam.examId || selectedExam.id;
 
       const result = await apiService.reserveSlot({
@@ -77,7 +108,6 @@ export default function App() {
   };
 
   const initiateReschedule = (booking) => {
-    // Package booking item back into standard entry structure for the engine workspace
     setSelectedExam({
       id: booking.examId,
       examId: booking.examId,
@@ -88,9 +118,8 @@ export default function App() {
     setSelectedTime(booking.time);
     setIsRescheduling(true);
     setTargetRescheduleBookingId(booking.id);
-    setActiveInvoice(booking); // Show info drawer simultaneously for reference
+    setActiveInvoice(booking); 
     
-    // Smooth scroll workspace into focus for mobile users
     window.scrollTo({ top: 300, behavior: 'smooth' });
   };
 
@@ -110,7 +139,6 @@ export default function App() {
     <div style={{
       minHeight: '100vh',
       backgroundColor: '#f8fafc',
-      // Premium corporate architectural geometric background matrix
       backgroundImage: 'radial-gradient(#cbd5e1 1.2px, transparent 1.2px), radial-gradient(#cbd5e1 1.2px, #f8fafc 1.2px)',
       backgroundSize: '24px 24px',
       backgroundPosition: '0 0, 12px 12px',
@@ -246,13 +274,12 @@ export default function App() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 {user.bookings.map((booking) => {
                   const ticketCode = generateTicketSerial(booking.id, booking.examId);
-                  const isActiveInDrawer = activeInvoice?.id === booking.id;
                   
                   return (
                     <div 
                       key={booking.id} 
                       style={{ 
-                        border: isActiveInDrawer ? '2px solid #0f172a' : '1px solid #e2e8f0', 
+                        border: activeInvoice?.id === booking.id ? '2px solid #0f172a' : '1px solid #e2e8f0', 
                         borderRadius: '14px', 
                         backgroundColor: '#ffffff', 
                         overflow: 'hidden',
@@ -330,7 +357,7 @@ export default function App() {
               gap: '14px', 
               boxShadow: '0 10px 15px -3px rgba(217,119,6,0.04)' 
             }}>
-              <div style={{ display: 'flex', justifyBetween: 'space-between', alignItems: 'center', borderBottom: '1px solid #fde68a', paddingBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #fde68a', paddingBottom: '12px' }}>
                 <div style={{ flex: 1 }}>
                   <span style={{ fontSize: '10px', color: '#b45309', fontWeight: '800', letterSpacing: '0.05em' }}>OFFICIAL VERIFICATION GATEWAY</span>
                   <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '900', color: '#78350f', textTransform: 'uppercase' }}>Direct Banking Directive</h3>
@@ -489,7 +516,7 @@ export default function App() {
                             {time}
                           </button>
                         );
-                  })}
+                      })}
                     </div>
                   </div>
                 )}
