@@ -1,4 +1,3 @@
-// 🌐 Added the mandatory /api prefix for Vercel serverless routing routing
 const API_BASE = 'https://azania-portal-backend.vercel.app/api'; 
 
 export const apiService = {
@@ -45,6 +44,23 @@ export const apiService = {
       body: JSON.stringify(bookingData),
     });
     if (!res.ok) throw new Error((await res.json()).message || 'Booking failed');
+    return res.json();
+  },
+
+  // 👑 ADMIN DIRECT ACCESS CONNECTORS
+  adminGetStudents: async () => {
+    const res = await fetch(`${API_BASE}/admin/students`);
+    if (!res.ok) throw new Error('Failed to extract roster data ledger.');
+    return res.json();
+  },
+
+  adminUpdateBooking: async (updateData) => {
+    const res = await fetch(`${API_BASE}/admin/bookings/update`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updateData),
+    });
+    if (!res.ok) throw new Error('Failed to apply administrative update parameters.');
     return res.json();
   }
 };
