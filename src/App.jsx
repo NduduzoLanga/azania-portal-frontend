@@ -59,9 +59,16 @@ export default function App() {
       .catch(() => setErrorMessage('Failed to compile administrative cohort records.'));
   };
 
+  // ⏱️ LIVE BACKGROUND POLLER FOR ADMIN ACCOUNT SYNCING
   useEffect(() => {
     if (role === 'admin') {
-      loadAdminMetrics();
+      loadAdminMetrics(); // Initial load execution
+
+      const syncInterval = setInterval(() => {
+        loadAdminMetrics(); // Background pulse catch-up every 4 seconds
+      }, 4000);
+
+      return () => clearInterval(syncInterval); // Cleanup on tab state switches
     }
   }, [role]);
 
@@ -140,7 +147,6 @@ export default function App() {
     return (
       <Login 
         onAuthSuccess={(payload) => {
-          // Payload contains { success: true, role: 'student'|'admin', user: {...} }
           setUser(payload.user);
           setRole(payload.role);
         }} 
@@ -225,8 +231,17 @@ export default function App() {
             {/* Seating Ledger Table */}
             <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '24px', border: '1px solid #e2e8f0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #f1f5f9', paddingBottom: '14px' }}>
-                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800' }}>Consolidated Seating Ledger</h3>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800' }}>Consolidated Seating Ledger</h3>
+                  <span style={{ fontSize: '10px', color: '#64748b' }}>⚡ Syncing background changes live</span>
+                </div>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <button 
+                    onClick={loadAdminMetrics}
+                    style={{ padding: '6px 12px', borderRadius: '6px', border: '1px solid #0284c7', fontSize: '11px', fontWeight: '700', cursor: 'pointer', backgroundColor: '#e0f2fe', color: '#0369a1' }}
+                  >
+                    🔄 Sync Now
+                  </button>
                   {['ALL', 'Conditional (Pending EFT)', 'Approved', 'Declined'].map((filter) => (
                     <button
                       key={filter} onClick={() => setAdminStatusFilter(filter)}
@@ -468,10 +483,16 @@ export default function App() {
                   )}
 
                   {selectedDate && selectedTime && (
-                    <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px dashed #cbd5e1' }}>
-                      <p style={{ margin: 0, fontSize: '13px' }}>Staging: <strong>{selectedDate} @ {selectedTime}</strong></p>
-                      <button onClick={handleConfirmBooking} style={{ padding: '12px 24px', backgroundColor: '#d97706', color: '#ffffff', fontWeight: '800', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
-                        {isRescheduling ? 'Authorize Shift Change' : 'Confirm Allocation Seat'}
+                    <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                      <p style={{ margin: 0, fontSize: '13px' }}>
+                        Confirm allocation choice for <strong>{selectedDate}</strong>?
+                      </p>
+                      <button 
+                        onClick={handleConfirmBooking} 
+                        disabled={loading}
+                        style={{ padding: '10px 18px', backgroundColor: '#0f172a', color: '#ffffff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '12px', cursor: 'pointer' }}
+                      >
+                        {loading ? 'Processing...' : isRescheduling ? 'Execute Shift' : 'Book Seat'}
                       </button>
                     </div>
                   )}
